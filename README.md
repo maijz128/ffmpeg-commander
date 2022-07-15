@@ -1,4 +1,5 @@
-# `ffmpeg-commander`
+# ffmpeg-commander
+
 A simple web UI for generating common FFmpeg encoding operations.
 
 https://maijz128.github.io/ffmpeg-commander/
