@@ -33,7 +33,7 @@ If you feel some options can be improved, feel free to open an issue or pull req
 npm install
 npm run serve
 ```
-* Load `http://localhost:8080/` in the web browser.
+* Load http://localhost:8080/ in the web browser.
 
 ### Compiles and minifies for production
 ```

@@ -3,8 +3,9 @@
     <b-form-row>
       <!-- Input -->
       <b-col>
-        <b-form-group label="Input:" label-for="input">
-          <b-input-group>
+        <b-form-group label="Input:" label-for="input"
+        >
+          <b-input-group >
             <b-form-select
               v-if="!$store.state.ffmpegdEnabled || !$store.state.wsConnected"
               class="protocol"
@@ -19,6 +20,7 @@
               v-model="value.input"
               :state="Boolean(value.input)"
               placeholder="Example: input.mp4"
+              @dragover="dragover" @dragleave="dragleave" @drop="drop"
             ></b-form-input>
 
             <b-form-input
@@ -29,7 +31,7 @@
             ></b-form-input>
 
             <div v-if="showFileBrowser">
-              <FileBrowser v-on:file="onFileSelect" v-on:close="onClose" />
+              <!-- <FileBrowser v-on:file="onFileSelect" v-on:close="onClose" /> -->
             </div>
           </b-input-group>
         </b-form-group>
@@ -63,7 +65,7 @@
 <script>
 import form from '@/form';
 
-import FileBrowser from '@/components/FileBrowser.vue';
+// import FileBrowser from '@/components/FileBrowser.vue';
 
 const {
   protocols,
@@ -72,7 +74,7 @@ const {
 export default {
   name: 'Input',
   components: {
-    FileBrowser,
+    // FileBrowser,
   },
   props: ['value'],
   data() {
@@ -81,6 +83,7 @@ export default {
       protocolInput: 'movie.mp4',
       protocolOutput: 'movie.mp4',
       showFileBrowser: false,
+      filelist: [], // Store our uploaded files
     };
   },
   methods: {
@@ -97,6 +100,36 @@ export default {
     onClose() {
       this.showFileBrowser = false;
     },
+
+    onChange() {
+      // this.filelist = [...this.$refs.file.files];
+      console.log(this.filelist);
+    },
+    remove(i) {
+      this.filelist.splice(i, 1);
+    },
+    dragover(event) {
+      event.preventDefault();
+      // Add some visual fluff to show the user can drop its files
+      if (!event.currentTarget.classList.contains('drop-bg-allow')) {
+        event.currentTarget.classList.remove('bg-gray-100');
+        event.currentTarget.classList.add('drop-bg-allow');
+      }
+    },
+    dragleave(event) {
+      // Clean up
+      event.currentTarget.classList.add('bg-gray-100');
+      event.currentTarget.classList.remove('drop-bg-allow');
+    },
+    drop(event) {
+      event.preventDefault();
+      this.filelist = event.dataTransfer.files;
+      // this.$refs.file.files = event.dataTransfer.files;
+      this.onChange(); // Trigger the onChange event manually
+      // Clean up
+      event.currentTarget.classList.add('bg-gray-100');
+      event.currentTarget.classList.remove('drop-bg-allow');
+    },
   },
 };
 </script>
@@ -104,5 +137,11 @@ export default {
 <style scoped>
 .protocol {
   flex: 0 0 20% !important;
+}
+.drop-bg-allow{
+  background-color: #94B49F;
+}
+.drop-bg-wrong{
+  background-color: #94B49F;
 }
 </style>

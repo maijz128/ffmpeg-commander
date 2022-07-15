@@ -88,9 +88,9 @@ export default {
 @import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;700&display=swap');
 
 .command-box {
-  background-color: #000;
+  background-color: rgb(246, 246, 246);
   border: 1px solid #aaa;
-  color: #fff;
+  color: rgb(47, 51, 55);
   display: block;
   font-size: 1.2rem;
   font-weight: 700;

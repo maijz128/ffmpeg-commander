@@ -21,8 +21,9 @@
 </template>
 
 <script>
-const LOCALSTORAGE_HOST_URI = 'host';
-const host = window.localStorage.getItem(LOCALSTORAGE_HOST_URI) || 'http://localhost:8080';
+// const LOCALSTORAGE_HOST_URI = 'host';
+// const host = window.localStorage.getItem(LOCALSTORAGE_HOST_URI) || 'http://localhost:8080';
+const host = 'http://localhost:8080';
 
 export default {
   data() {
