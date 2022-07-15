@@ -20,7 +20,7 @@
               v-model="value.input"
               :state="Boolean(value.input)"
               placeholder="Example: input.mp4"
-              @dragover="dragover" @dragleave="dragleave" @drop="drop"
+              @dragover="dragover" @dragleave="dragleave" @drop="drop('input', $event)"
             ></b-form-input>
 
             <b-form-input
@@ -31,7 +31,7 @@
             ></b-form-input>
 
             <div v-if="showFileBrowser">
-              <!-- <FileBrowser v-on:file="onFileSelect" v-on:close="onClose" /> -->
+              <FileBrowser v-on:file="onFileSelect" v-on:close="onClose" />
             </div>
           </b-input-group>
         </b-form-group>
@@ -54,6 +54,7 @@
               v-model="value.output"
               :state="Boolean(value.output)"
               placeholder="Example: output.mp4"
+              @dragover="dragover" @dragleave="dragleave" @drop="drop('output', $event)"
             ></b-form-input>
           </b-input-group>
         </b-form-group>
@@ -65,7 +66,7 @@
 <script>
 import form from '@/form';
 
-// import FileBrowser from '@/components/FileBrowser.vue';
+import FileBrowser from '@/components/FileBrowser.vue';
 
 const {
   protocols,
@@ -74,7 +75,7 @@ const {
 export default {
   name: 'Input',
   components: {
-    // FileBrowser,
+    FileBrowser,
   },
   props: ['value'],
   data() {
@@ -112,23 +113,33 @@ export default {
       event.preventDefault();
       // Add some visual fluff to show the user can drop its files
       if (!event.currentTarget.classList.contains('drop-bg-allow')) {
-        event.currentTarget.classList.remove('bg-gray-100');
         event.currentTarget.classList.add('drop-bg-allow');
       }
     },
     dragleave(event) {
       // Clean up
-      event.currentTarget.classList.add('bg-gray-100');
       event.currentTarget.classList.remove('drop-bg-allow');
     },
-    drop(event) {
+    drop(key, event) {
       event.preventDefault();
       this.filelist = event.dataTransfer.files;
+      // event.currentTarget.value = this.filelist[0];
+      // event.currentTarget.value = "this.filelist[0]";
+      this.update(key, this.filelist[0].mozFullPath);
+      console.log(event.currentTarget.value);
+
       // this.$refs.file.files = event.dataTransfer.files;
-      this.onChange(); // Trigger the onChange event manually
+      this.onChange(event); // Trigger the onChange event manually
       // Clean up
-      event.currentTarget.classList.add('bg-gray-100');
       event.currentTarget.classList.remove('drop-bg-allow');
+    },
+    fileInfo(file) {
+      return {
+        _File: file,
+        name: file.name,
+        size: file.size,
+        type: file.type,
+      };
     },
   },
 };
