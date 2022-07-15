@@ -125,7 +125,7 @@ export default {
       this.filelist = event.dataTransfer.files;
       // event.currentTarget.value = this.filelist[0];
       // event.currentTarget.value = "this.filelist[0]";
-      this.update(key, this.filelist[0].mozFullPath);
+      this.update(key, this.filelist[0].name);
       console.log(event.currentTarget.value);
 
       // this.$refs.file.files = event.dataTransfer.files;
